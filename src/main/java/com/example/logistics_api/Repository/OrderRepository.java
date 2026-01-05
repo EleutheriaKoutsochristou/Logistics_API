@@ -1,0 +1,13 @@
+package com.example.logistics_api.Repository;
+
+
+import com.example.logistics_api.Entity.Orders;
+import com.example.logistics_api.Enumeration.OrderStatus;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface OrderRepository extends JpaRepository<Orders,Integer> {
+    List<Orders> findbyStatus(OrderStatus status);
+
+}
