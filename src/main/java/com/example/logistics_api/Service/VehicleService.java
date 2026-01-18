@@ -1,6 +1,5 @@
 package com.example.logistics_api.Service;
 
-import com.example.logistics_api.Entity.Vehicles;
 import com.example.logistics_api.Enumeration.VehicleType;
 import com.example.logistics_api.Factory.VehicleFactory;
 import com.example.logistics_api.Repository.VehicleRepository;
@@ -12,7 +11,7 @@ public class VehicleService {
     private final VehicleRepository vehicleRepository;
     private final VehicleFactory vehicleFactory;
 
-    // Σύνδεση με Factory και Repository
+
     public VehicleService(VehicleRepository vehicleRepository, VehicleFactory vehicleFactory) {
         this.vehicleRepository = vehicleRepository;
         this.vehicleFactory = vehicleFactory;

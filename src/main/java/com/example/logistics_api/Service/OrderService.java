@@ -14,9 +14,10 @@ public class OrderService {
     public OrderService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
+
     @Transactional
-    public Orders createOrder(String customerName, double weight, String destination, ShippingType shippingType,double cost){
-        Orders new_order= new Orders();
+    public Orders createOrder(String customerName, double weight, String destination, ShippingType shippingType, double cost) {
+        Orders new_order = new Orders();
         new_order.setCustomerName(customerName);
         new_order.setWeight(weight);
         new_order.setDestination(destination);
@@ -26,6 +27,6 @@ public class OrderService {
         return orderRepository.save(new_order); //mapper !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //!!!!!!!!!!!!!!!!!!!!!!!!!
         //!!!!!!!!!!!!!!!!!!!!!!!!!
-       // DTO
+        // DTO
     }
 }
