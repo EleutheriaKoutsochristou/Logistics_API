@@ -13,7 +13,6 @@ import lombok.Setter;
 @Entity
 @AllArgsConstructor
 @Builder
-
 @Table(name = "vehicles")
 public class Vehicle {
 
@@ -23,19 +22,19 @@ public class Vehicle {
     private Integer id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="type",nullable = false, unique = true)
+    @Column(name="type",nullable = false)
     private VehicleType type;
 
     @Column(name="licenseplate",nullable = false, unique = true)
     private String licensePlate;
 
-    @Column(name="capacity",nullable = false, unique = true)
+    @Column(name="capacity",nullable = false)
     private Double capacity;
 
-    @Column(name="maxspeed",nullable = false, unique = true)
+    @Column(name="maxspeed",nullable = false)
     private Double maxSpeed;
 
-    @Column(name="status",nullable = false,unique = true)
+    @Column(name="status",nullable = false)
     private String status;
 
     public Vehicle(VehicleType type, String licensePlate, Double capacity, Double maxSpeed) {
