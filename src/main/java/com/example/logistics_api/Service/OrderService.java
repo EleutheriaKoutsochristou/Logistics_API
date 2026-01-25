@@ -1,32 +1,56 @@
 package com.example.logistics_api.Service;
 
-import com.example.logistics_api.Entity.Orders;
+import com.example.logistics_api.DTO.OrderDTO;
+import com.example.logistics_api.Entity.Order;
 import com.example.logistics_api.Enumeration.OrderStatus;
-import com.example.logistics_api.Enumeration.ShippingType;
 import com.example.logistics_api.Repository.OrderRepository;
+import com.example.logistics_api.Repository.VehicleRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class OrderService {
     private final OrderRepository orderRepository;
+    private final ShippingCostService shippingCostService;
+    private final VehicleRepository vehicleRepository;
 
-    public OrderService(OrderRepository orderRepository) {
+    public OrderService(OrderRepository orderRepository,
+                        ShippingCostService shippingCostService,
+                        VehicleRepository vehicleRepository) {
         this.orderRepository = orderRepository;
+        this.vehicleRepository = vehicleRepository;
+        this.shippingCostService = shippingCostService;
     }
 
     @Transactional
-    public Orders createOrder(String customerName, double weight, String destination, ShippingType shippingType, double cost) {
-        Orders new_order = new Orders();
-        new_order.setCustomerName(customerName);
-        new_order.setWeight(weight);
-        new_order.setDestination(destination);
-        new_order.setShippingType(shippingType);
+    public int createOrder(OrderDTO dto) {
+        Order new_order = Order.DtoToEntity(dto);
         new_order.setStatus(OrderStatus.PENDING);
-        new_order.setCost(cost);
-        return orderRepository.save(new_order); //mapper !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //!!!!!!!!!!!!!!!!!!!!!!!!!
-        //!!!!!!!!!!!!!!!!!!!!!!!!!
-        // DTO
+        orderRepository.save(new_order);
+        return new_order.getId();
+
+    }
+
+    @Async
+    @Transactional
+    public void ExecuteOrder(int orderId) {
+
+        try {
+            Thread.sleep(3000);
+            Order order = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException("Order not found"));
+
+
+            double cost = shippingCostService.calculate(order.getShippingType(), order.getWeight());
+            order.setCost(cost);
+            order.setStatus(OrderStatus.READY);
+            System.out.println("FOUND THE ORDER!!!");
+
+
+        } catch (Exception e) {
+            System.out.println(e);
+            e.printStackTrace();
+        }
     }
 }

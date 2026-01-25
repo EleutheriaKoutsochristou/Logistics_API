@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.logistics_api.DTO.VehicleDTO.VehicletoDTO;
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class VehicleService {
@@ -32,7 +33,7 @@ public class VehicleService {
         return VehicletoDTO(savedVehicle); // return to the database
     }
     public List<VehicleDTO> getAllVehicles() {
-        return vehicleRepository.findAll().stream().map(Vehicle::toDto).toList();
+        return vehicleRepository.findAll().stream().map(VehicleDTO::VehicletoDTO).toList();
     }
 
 

@@ -1,15 +1,20 @@
 package com.example.logistics_api.Entity;
 
+import com.example.logistics_api.DTO.OrderDTO;
 import com.example.logistics_api.Enumeration.OrderStatus;
 import com.example.logistics_api.Enumeration.ShippingType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.Builder;
 
 @Table(name = "orders") //mapping it to the database table named "orders"
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@Builder
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //auto increment
@@ -50,5 +55,15 @@ public class Order {
     }
 
     public Order() {
+    }
+
+    public static Order DtoToEntity(OrderDTO order) {
+        return Order.builder()
+                .customerName(order.customerName())
+                .cost(order.cost())
+                .weight(order.weight())
+                .destination(order.destination())
+                .shippingType(order.shippingType())
+                .build();
     }
 }

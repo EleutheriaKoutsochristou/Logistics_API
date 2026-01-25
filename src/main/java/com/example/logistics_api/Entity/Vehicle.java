@@ -3,6 +3,7 @@ package com.example.logistics_api.Entity;
 import com.example.logistics_api.DTO.VehicleDTO;
 import com.example.logistics_api.Enumeration.VehicleType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +11,9 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
+@AllArgsConstructor
 @Builder
+
 @Table(name = "vehicles")
 public class Vehicle {
 
@@ -32,11 +35,15 @@ public class Vehicle {
     @Column(name="maxspeed",nullable = false, unique = true)
     private Double maxSpeed;
 
+    @Column(name="status",nullable = false,unique = true)
+    private String status;
+
     public Vehicle(VehicleType type, String licensePlate, Double capacity, Double maxSpeed) {
         this.type = type;
         this.licensePlate = licensePlate;
         this.capacity = capacity;
         this.maxSpeed = maxSpeed;
+        this.status = "TRUE";
 
     }
 
@@ -44,13 +51,14 @@ public class Vehicle {
 
     }
 
-    public VehicleDTO toDto() {
-        return VehicleDTO.builder()
+    public Vehicle DtoToVehicle(VehicleDTO vehicleDTO) {
+        return Vehicle.builder()
                 .type(getType())
                 .id(getId())
                 .licensePlate(getLicensePlate())
                 .capacity(getCapacity())
                 .maxSpeed(getMaxSpeed())
+                .status(getStatus())
                 .build();
     }
 }
