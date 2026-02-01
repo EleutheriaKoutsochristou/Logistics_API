@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 public class StandardPricing implements ShippingPricing {
     @Override
     public double calculateCost(double weight){
-        double cost = weight * 2.5;
-        return cost * 1.5;
+        return weight * 2.5;
     }
 }

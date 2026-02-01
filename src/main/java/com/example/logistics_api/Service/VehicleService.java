@@ -25,12 +25,15 @@ public class VehicleService {
         this.vehicleFactory = vehicleFactory;
     }
 
-    public VehicleDTO createNewVehicle(String typeStr, String licensePlate) {
+    public VehicleDTO createNewVehicle(VehicleType typevehicleDTO) {
+//          VehicleType vehicleType = VehicleType.valueOf(typevehicleDTO);
+//        VehicleType type = VehicleType.valueOf(typeStr.toUpperCase()); //type validation
+//        Vehicle newVehicle = vehicleFactory.createVehicle(type); // create the object based on the type
+//        Vehicle savedVehicle = vehicleRepository.save(newVehicle); // save to the database
 
-        VehicleType type = VehicleType.valueOf(typeStr.toUpperCase()); //type validation
-        Vehicle newVehicle = vehicleFactory.createVehicle(type, licensePlate); // create the object based on the licenseplate and the type
-        Vehicle savedVehicle = vehicleRepository.save(newVehicle); // save to the database
-        return VehicletoDTO(savedVehicle); // return to the database
+          Vehicle newVehicle = vehicleFactory.createVehicle(typevehicleDTO);
+          return VehicletoDTO(newVehicle); // return to the database
+
     }
     public List<VehicleDTO> getAllVehicles() {
         return vehicleRepository.findAll().stream().map(VehicleDTO::VehicletoDTO).toList();

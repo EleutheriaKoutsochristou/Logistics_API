@@ -4,7 +4,6 @@ import com.example.logistics_api.Entity.Vehicle;
 import com.example.logistics_api.Enumeration.VehicleType;
 import lombok.Builder;
 
-
 @Builder
 public record VehicleDTO(
         Integer id,
@@ -19,6 +18,10 @@ public record VehicleDTO(
                 .capacity(vehicle.getCapacity())
                 .licensePlate(vehicle.getLicensePlate())
                 .maxSpeed(vehicle.getMaxSpeed()).build();
+
+    }
+    public VehicleDTO GetTypeVehicleDTO() {
+        return VehicleDTO.builder().type(type).build();
 
     }
 }

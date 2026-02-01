@@ -7,6 +7,7 @@ import com.example.logistics_api.Repository.OrderRepository;
 import com.example.logistics_api.Service.OrderService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,15 +26,13 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
-    public int processOrder(@RequestBody OrderDTO orderdto) {
+    public ResponseEntity<Integer> processOrder(@RequestBody OrderDTO orderdto) {
         System.out.println("Accepting order");
         int order_id = orderService.createOrder(orderdto);
         System.out.println("Order saved and returning the id of the order");
 
-        orderService.ExecuteOrder(order_id);
-
+        orderService.executeOrder(order_id);
         System.out.println(order_id);
-        return order_id;
-
+        return ResponseEntity.accepted().body(order_id);
     }
 }

@@ -35,21 +35,19 @@ public class OrderService {
 
     @Async
     @Transactional
-    public void ExecuteOrder(int orderId) {
-
+    public void executeOrder(int orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException("Order not found"));
         try {
             Thread.sleep(3000);
-            Order order = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException("Order not found"));
-
-
             double cost = shippingCostService.calculate(order.getShippingType(), order.getWeight());
             order.setCost(cost);
-            order.setStatus(OrderStatus.READY);
+
+
+
+            //order.setStatus(OrderStatus.READY);
             System.out.println("FOUND THE ORDER!!!");
-
-
         } catch (Exception e) {
-            System.out.println(e);
+            order.setStatus(OrderStatus.FAILED);
             e.printStackTrace();
         }
     }

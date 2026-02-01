@@ -60,7 +60,7 @@ public class Order {
     public static Order DtoToEntity(OrderDTO order) {
         return Order.builder()
                 .customerName(order.customerName())
-                .cost(order.cost())
+//                .cost(order.cost())
                 .weight(order.weight())
                 .destination(order.destination())
                 .shippingType(order.shippingType())
