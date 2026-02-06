@@ -16,9 +16,13 @@ public class VehicleController {
     @Autowired
     private VehicleService vehicleService;
 
+    @Autowired
+    private OrderService orderService;
+
     @PostMapping
     public ResponseEntity<VehicleDTO> initializeVehicles(@RequestBody VehicleDTO vehicleDTO ) {
         VehicleDTO vehicle = vehicleService.createNewVehicle(vehicleDTO.GetTypeVehicleDTO().type());
+
         return ResponseEntity.ok(vehicle);
 //        return ResponseEntity.ok("Initialized " + numberOfVehicles + " vehicles.");
 

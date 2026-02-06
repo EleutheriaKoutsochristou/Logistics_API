@@ -4,6 +4,7 @@ import com.example.logistics_api.DTO.VehicleDTO;
 import com.example.logistics_api.Entity.Vehicle;
 import com.example.logistics_api.Enumeration.VehicleType;
 import com.example.logistics_api.Factory.VehicleFactory;
+import com.example.logistics_api.Repository.OrderRepository;
 import com.example.logistics_api.Repository.VehicleRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class VehicleService {
 
     private final VehicleRepository vehicleRepository;
     private final VehicleFactory vehicleFactory;
-
+    private final OrderRepository orderRepository;
 
     public VehicleService(VehicleRepository vehicleRepository, VehicleFactory vehicleFactory) {
         this.vehicleRepository = vehicleRepository;
@@ -26,12 +27,13 @@ public class VehicleService {
     }
 
     public VehicleDTO createNewVehicle(VehicleType typevehicleDTO) {
-//          VehicleType vehicleType = VehicleType.valueOf(typevehicleDTO);
+//        VehicleType vehicleType = VehicleType.valueOf(typevehicleDTO);
 //        VehicleType type = VehicleType.valueOf(typeStr.toUpperCase()); //type validation
 //        Vehicle newVehicle = vehicleFactory.createVehicle(type); // create the object based on the type
 //        Vehicle savedVehicle = vehicleRepository.save(newVehicle); // save to the database
 
           Vehicle newVehicle = vehicleFactory.createVehicle(typevehicleDTO);
+
           return VehicletoDTO(newVehicle); // return to the database
 
     }
