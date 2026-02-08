@@ -16,4 +16,6 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
     Optional<Vehicle> findFirstByTypeAndStatus(VehicleType type, String status);
 
     Vehicle getVehiclesByType(VehicleType type);
+
+    Vehicle findFirstByType(VehicleType type);
 }

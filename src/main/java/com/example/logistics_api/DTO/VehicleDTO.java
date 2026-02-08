@@ -13,7 +13,8 @@ public record VehicleDTO(
         Double maxSpeed
 ) {
     public static VehicleDTO VehicletoDTO(Vehicle vehicle) {
-        return VehicleDTO.builder().id(vehicle.getId()).
+        return VehicleDTO.builder().
+                id(vehicle.getId()).
                 type(vehicle.getType())
                 .capacity(vehicle.getCapacity())
                 .licensePlate(vehicle.getLicensePlate())

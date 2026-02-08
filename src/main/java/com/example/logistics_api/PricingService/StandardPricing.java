@@ -1,6 +1,5 @@
-package com.example.logistics_api.Service;
+package com.example.logistics_api.PricingService;
 
-import com.example.logistics_api.Enumeration.ShippingType;
 import org.springframework.stereotype.Component;
 
 @Component("STANDARD")

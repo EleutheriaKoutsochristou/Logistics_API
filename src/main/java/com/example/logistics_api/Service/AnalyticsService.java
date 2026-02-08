@@ -1,17 +1,14 @@
 package com.example.logistics_api.Service;
 
+import com.example.logistics_api.DTO.OrderResponseDTO;
 import com.example.logistics_api.Entity.Order;
 import com.example.logistics_api.Enumeration.OrderStatus;
 import com.example.logistics_api.Repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.example.logistics_api.DTO.OrderDTO.OrdertoDTO;
 @Service
 public class AnalyticsService {
     private final OrderRepository orderRepository;
@@ -24,7 +21,7 @@ public class AnalyticsService {
     public double totalRevenue(){
         return orderRepository.findAll().stream()
                 .mapToDouble(Order::getCost)
-                .sum();
+                .reduce(0, Double::sum);
     }
     public Map<String, List<Order>> getOrders(){
         return orderRepository.findAll().stream()
@@ -32,11 +29,11 @@ public class AnalyticsService {
     }
 
 
-    //Most expensive order
-    public Record mostExpensiveOrder(){
-        return OrdertoDTO(Objects.requireNonNull(orderRepository.findAll().stream()
-                .max(Comparator.comparingDouble(Order::getCost))
-                .orElse(null)));
+
+    public Optional<Object> mostExpensiveOrder(){
+        return orderRepository.findAll().stream()
+                .max(Comparator.comparingDouble(Order::getCost)).
+                map(OrderResponseDTO::fromEntity);
     }
 
     public List<Integer> getDelayedOrders(){

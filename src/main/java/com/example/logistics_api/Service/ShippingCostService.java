@@ -1,7 +1,7 @@
 package com.example.logistics_api.Service;
 
 import com.example.logistics_api.Enumeration.ShippingType;
-import org.springframework.http.ResponseEntity;
+import com.example.logistics_api.PricingService.ShippingPricing;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;

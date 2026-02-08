@@ -41,9 +41,6 @@ public class OrderService {
             Thread.sleep(3000);
             double cost = shippingCostService.calculate(order.getShippingType(), order.getWeight());
             order.setCost(cost);
-
-
-
             //order.setStatus(OrderStatus.READY);
             System.out.println("FOUND THE ORDER!!!");
         } catch (Exception e) {
