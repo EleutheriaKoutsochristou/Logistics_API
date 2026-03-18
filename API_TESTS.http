@@ -1,0 +1,192 @@
+###
+# Logistics API Test Cases
+# Base URL: http://localhost:8081
+# Created: March 18, 2026
+
+### ==================== ORDER ENDPOINTS ====================
+
+### Test 1: Create Order - Standard Shipping to Italy
+POST http://localhost:8081/orders
+Content-Type: application/json
+
+{
+  "customerName": "C1",
+  "weight": 10,
+  "shippingType": "STANDARD",
+  "destination": "Italy"
+}
+
+### Test 2: Create Order - Standard Shipping to Italy
+POST http://localhost:8081/orders
+Content-Type: application/json
+
+{
+  "customerName": "C2",
+  "weight": 7,
+  "shippingType": "STANDARD",
+  "destination": "Italy"
+}
+
+### Test 3: Create Order - Express Shipping to Africa
+POST http://localhost:8081/orders
+Content-Type: application/json
+
+{
+  "customerName": "C5",
+  "weight": 3,
+  "shippingType": "EXPRESS",
+  "destination": "Africa"
+}
+
+### Test 4: Create Order - Free Shipping (Light Package)
+POST http://localhost:8081/orders
+Content-Type: application/json
+
+{
+  "customerName": "C6",
+  "weight": 2,
+  "shippingType": "FREE",
+  "destination": "Germany"
+}
+
+### Test 5: Create Order - Standard Shipping to France
+POST http://localhost:8081/orders
+Content-Type: application/json
+
+{
+  "customerName": "C7",
+  "weight": 15,
+  "shippingType": "STANDARD",
+  "destination": "France"
+}
+
+### ==================== VEHICLE ENDPOINTS ====================
+
+### Test 6: Bind Van to Order
+POST http://localhost:8081/vehicles/bindVehicleToOrder
+Content-Type: application/json
+
+{
+  "type": "VAN",
+  "orderId": 1
+}
+
+### Test 7: Bind Truck to Order
+POST http://localhost:8081/vehicles/bindVehicleToOrder
+Content-Type: application/json
+
+{
+  "type": "TRUCK",
+  "orderId": 2
+}
+
+### Test 8: Bind Drone to Order
+POST http://localhost:8081/vehicles/bindVehicleToOrder
+Content-Type: application/json
+
+{
+  "type": "DRONE",
+  "orderId": 3
+}
+
+### Test 9: Bind Van to Order (Different Order)
+POST http://localhost:8081/vehicles/bindVehicleToOrder
+Content-Type: application/json
+
+{
+  "type": "VAN",
+  "orderId": 4
+}
+
+### Test 10: Bind Truck to Order (Different Order)
+POST http://localhost:8081/vehicles/bindVehicleToOrder
+Content-Type: application/json
+
+{
+  "type": "TRUCK",
+  "orderId": 5
+}
+
+### ==================== ANALYTICS ENDPOINTS ====================
+
+### Test 11: Get All Analytics Data
+GET http://localhost:8081/analytics
+
+### ==================== ERROR CASES ====================
+
+### Test 12: Create Order - Free Shipping with Exceeding Weight (Should Fail)
+POST http://localhost:8081/orders
+Content-Type: application/json
+
+{
+  "customerName": "C8",
+  "weight": 6,
+  "shippingType": "FREE",
+  "destination": "Spain"
+}
+
+### Test 13: Bind Vehicle to Non-existent Order (Should Fail)
+POST http://localhost:8081/vehicles/bindVehicleToOrder
+Content-Type: application/json
+
+{
+  "type": "VAN",
+  "orderId": 999
+}
+
+### ==================== ADDITIONAL TEST CASES ====================
+
+### Test 14: Create Order - Heavy Standard Shipping
+POST http://localhost:8081/orders
+Content-Type: application/json
+
+{
+  "customerName": "C9",
+  "weight": 50,
+  "shippingType": "STANDARD",
+  "destination": "Japan"
+}
+
+### Test 15: Create Order - Express Shipping Heavy
+POST http://localhost:8081/orders
+Content-Type: application/json
+
+{
+  "customerName": "C10",
+  "weight": 25,
+  "shippingType": "EXPRESS",
+  "destination": "USA"
+}
+
+### Test 16: Bind Multiple Vehicles to Same Order Type
+POST http://localhost:8081/vehicles/bindVehicleToOrder
+Content-Type: application/json
+
+{
+  "type": "DRONE",
+  "orderId": 6
+}
+
+### ==================== NOTES ====================
+# Shipping Types:
+# - STANDARD: weight × 2.5 (most economical)
+# - EXPRESS: (weight × 2.5) × 1.5 (premium, 50% markup)
+# - FREE: 0.0 (max 5kg only)
+#
+# Vehicle Types:
+# - TRUCK: Large capacity, bulk deliveries
+# - VAN: Medium capacity, standard deliveries
+# - DRONE: Fast delivery, light packages
+#
+# Order Status Lifecycle:
+# - PENDING: Order created, awaiting processing
+# - DELAYED: Vehicle in service
+# - READY: Ready for delivery
+# - FAILED: Processing failed
+#
+# Expected Response Codes:
+# - 202 ACCEPTED: Order created successfully
+# - 200 OK: Vehicle bound successfully, Analytics retrieved
+# - 400 BAD REQUEST: Invalid input
+# - 404 NOT FOUND: Resource not found
+# - 500 INTERNAL SERVER ERROR: Server error

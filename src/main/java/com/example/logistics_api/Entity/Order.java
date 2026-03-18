@@ -4,20 +4,18 @@ import com.example.logistics_api.DTO.OrderDTO;
 import com.example.logistics_api.Enumeration.OrderStatus;
 import com.example.logistics_api.Enumeration.ShippingType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.Builder;
+import lombok.*;
 
-@Table(name = "orders") //mapping it to the database table named "orders"
+@Table(name = "orders")
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //auto increment
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false, length = 128)
@@ -40,12 +38,8 @@ public class Order {
     @Column(nullable = false)
     private double cost;
 
-    //Constructors
-    protected Order(String customerName,
-                    double weight,
-                    String destination,
-                    ShippingType ShippingType,
-                    double cost) {
+    protected Order(String customerName, double weight, String destination,
+                    ShippingType shippingType, double cost) {
         this.customerName = customerName;
         this.weight = weight;
         this.destination = destination;
@@ -54,16 +48,13 @@ public class Order {
         this.status = OrderStatus.PENDING;
     }
 
-    public Order() {
-    }
 
     public static Order DtoToEntity(OrderDTO order) {
         return Order.builder()
-                .customerName(order.customerName())
-//                .cost(order.cost())
-                .weight(order.weight())
-                .destination(order.destination())
-                .shippingType(order.shippingType())
-                .build();
+            .customerName(order.customerName())
+            .weight(order.weight())
+            .destination(order.destination())
+            .shippingType(order.shippingType())
+            .build();
     }
 }
