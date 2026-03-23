@@ -58,19 +58,6 @@ CREATE INDEX idx_vehicles_status ON vehicles(status);
 CREATE INDEX idx_vehicles_license_plate ON vehicles(license_plate);
 
 -- ============================================
--- Insert Actual Orders Data
--- ============================================
--- INSERT INTO orders (id, cost, customer_name, destination, shipping_type, status, weight)
--- VALUES
---     (18, 25, 'C1', 'Italy', 'STANDARD', 'PENDING', 10),
---     (21, 25, 'C1', 'Italy', 'STANDARD', 'PENDING', 10),
---     (22, 0, 'C1', 'Italy', 'STANDARD', 'PENDING', 10),
---     (20, 7.5, 'C3', 'Italy', 'STANDARD', 'READY', 3),
---     (19, 17.5, 'C2', 'Italy', 'STANDARD', 'DELAYED', 7),
---     (24, 11.25, 'C5', 'Africa', 'EXPRESS', 'READY', 3),
---     (23, 7.5, 'C5', 'France', 'STANDARD', 'DELAYED', 3);
-
--- ============================================
 -- Insert Actual Vehicles Data
 -- ============================================
 INSERT INTO vehicles (id, capacity, license_plate, max_speed, status, type)
@@ -78,27 +65,3 @@ VALUES
     (1, 1000, 'ABC123', 120, 'available', 'TRUCK'),
     (2, 500, 'XYZ789', 100, 'in_service', 'VAN'),
     (3, 200, 'LMN456', 80, 'available', 'DRONE');
-
--- ============================================
--- Data Summary
--- ============================================
--- Total orders: 7
--- Total vehicles: 3
---
--- Orders by status:
---   PENDING: 3 records
---   READY: 2 records
---   DELAYED: 2 records
---
--- Orders by shipping type:
---   STANDARD: 6 records
---   EXPRESS: 1 record
---
--- Vehicles by type:
---   TRUCK: 1 record
---   VAN: 1 record
---   DRONE: 1 record
---
--- Vehicles by status:
---   available: 2 records
---   in_service: 1 record
