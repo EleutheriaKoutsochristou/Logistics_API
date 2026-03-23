@@ -5,64 +5,55 @@
 
 ### ==================== ORDER ENDPOINTS ====================
 
-### Test 1: Create Order - Standard Shipping to Italy
+### Test 1: Create Order - Standard Shipping to Canada and the expected cost should be 30.0 (12 * 2.5)
 POST http://localhost:8081/orders
 Content-Type: application/json
 
 {
-  "customerName": "C1",
-  "weight": 10,
+  "customerName": "personA",
+  "weight": 12,
   "shippingType": "STANDARD",
-  "destination": "Italy"
+  "destination": "Canada"
 }
 
-### Test 2: Create Order - Standard Shipping to Italy
+### Test 2: Create Order - Express Shipping to Italy and the expected cost should be 18.75 ((5 * 2.5) * 1.5)
 POST http://localhost:8081/orders
 Content-Type: application/json
 
 {
-  "customerName": "C2",
-  "weight": 7,
-  "shippingType": "STANDARD",
-  "destination": "Italy"
-}
-
-### Test 3: Create Order - Express Shipping to Africa
-POST http://localhost:8081/orders
-Content-Type: application/json
-
-{
-  "customerName": "C5",
-  "weight": 3,
+  "customerName": "personB",
+  "weight": 5,
   "shippingType": "EXPRESS",
+  "destination": "Italy"
+}
+
+### Test 3: Create Order - Free Shipping to Africa (Should Succeed - Within Weight Limit which is 5kg) and the expected cost should be 0.0
+POST http://localhost:8081/orders
+Content-Type: application/json
+
+{
+  "customerName": "personC",
+  "weight": 3,
+  "shippingType": "FREE",
   "destination": "Africa"
 }
 
-### Test 4: Create Order - Free Shipping (Light Package)
+### Test 4: Create Order - Free Shipping to Germany (Should Fail - Exceeds Weight Limit) and the expected cost should be 0.0
 POST http://localhost:8081/orders
 Content-Type: application/json
 
 {
-  "customerName": "C6",
-  "weight": 2,
+  "customerName": "personD",
+  "weight":6,
   "shippingType": "FREE",
   "destination": "Germany"
 }
-
-### Test 5: Create Order - Standard Shipping to France
-POST http://localhost:8081/orders
-Content-Type: application/json
-
-{
-  "customerName": "C7",
-  "weight": 15,
-  "shippingType": "STANDARD",
-  "destination": "France"
-}
+### -----------------------------------------------------------------------END of Creation of orders -------------------------####
 
 ### ==================== VEHICLE ENDPOINTS ====================
-
-### Test 6: Bind Van to Order
+##Van is always at service, while the truck and drone are not
+## If we choose the van, the order will be dealyed and if we choose the truck or the drone, the order will be ready for delivery
+### Test 6: Bind Van to Order - This should set the order status to DELAYED since the van is always at service
 POST http://localhost:8081/vehicles/bindVehicleToOrder
 Content-Type: application/json
 
@@ -71,7 +62,7 @@ Content-Type: application/json
   "orderId": 1
 }
 
-### Test 7: Bind Truck to Order
+### Test 7: Bind Truck to Order - This should set the order status to READY since the truck is not at service
 POST http://localhost:8081/vehicles/bindVehicleToOrder
 Content-Type: application/json
 
@@ -80,7 +71,7 @@ Content-Type: application/json
   "orderId": 2
 }
 
-### Test 8: Bind Drone to Order
+### Test 8: Bind Drone to Order - This should set the order status to READY since the drone is not at service
 POST http://localhost:8081/vehicles/bindVehicleToOrder
 Content-Type: application/json
 
@@ -89,84 +80,94 @@ Content-Type: application/json
   "orderId": 3
 }
 
-### Test 9: Bind Van to Order (Different Order)
-POST http://localhost:8081/vehicles/bindVehicleToOrder
-Content-Type: application/json
-
-{
-  "type": "VAN",
-  "orderId": 4
-}
-
-### Test 10: Bind Truck to Order (Different Order)
-POST http://localhost:8081/vehicles/bindVehicleToOrder
-Content-Type: application/json
-
-{
-  "type": "TRUCK",
-  "orderId": 5
-}
 
 ### ==================== ANALYTICS ENDPOINTS ====================
-
-### Test 11: Get All Analytics Data
+### Test 9: Retrieve Analytics - This should return the analytics data for all orders and vehicles
 GET http://localhost:8081/analytics
-
-### ==================== ERROR CASES ====================
-
-### Test 12: Create Order - Free Shipping with Exceeding Weight (Should Fail)
-POST http://localhost:8081/orders
-Content-Type: application/json
-
-{
-  "customerName": "C8",
-  "weight": 6,
-  "shippingType": "FREE",
-  "destination": "Spain"
-}
-
-### Test 13: Bind Vehicle to Non-existent Order (Should Fail)
-POST http://localhost:8081/vehicles/bindVehicleToOrder
-Content-Type: application/json
-
-{
-  "type": "VAN",
-  "orderId": 999
-}
-
-### ==================== ADDITIONAL TEST CASES ====================
-
-### Test 14: Create Order - Heavy Standard Shipping
-POST http://localhost:8081/orders
-Content-Type: application/json
-
-{
-  "customerName": "C9",
-  "weight": 50,
-  "shippingType": "STANDARD",
-  "destination": "Japan"
-}
-
-### Test 15: Create Order - Express Shipping Heavy
-POST http://localhost:8081/orders
-Content-Type: application/json
-
-{
-  "customerName": "C10",
-  "weight": 25,
-  "shippingType": "EXPRESS",
-  "destination": "USA"
-}
-
-### Test 16: Bind Multiple Vehicles to Same Order Type
-POST http://localhost:8081/vehicles/bindVehicleToOrder
-Content-Type: application/json
-
-{
-  "type": "DRONE",
-  "orderId": 6
-}
-
+# Expected Response Example:
+#{
+#  "delayedOrders": [
+#    19
+#  ],
+#  "totalRevenue": 105.0,
+#  "mostExpensiveOrder": {
+#    "id": 18,
+#    "customerName": "C1",
+#    "cost": 25.0,
+#    "weight": 10.0,
+#    "shippingType": "STANDARD",
+#    "destination": "Italy"
+#  },
+#  "getOrders": {
+#    "Afica": [
+#      {
+#        "id": 24,
+#        "customerName": "C5",
+#        "weight": 3.0,
+#        "destination": "Afica",
+#        "shippingType": "EXPRESS",
+#        "status": "READY",
+#        "cost": 11.25
+#      }
+#    ],
+#    "Italy": [
+#      {
+#        "id": 18,
+#        "customerName": "C1",
+#        "weight": 10.0,
+#        "destination": "Italy",
+#        "shippingType": "STANDARD",
+#        "status": "PENDING",
+#        "cost": 25.0
+#      },
+#      {
+#        "id": 21,
+#        "customerName": "C1",
+#        "weight": 10.0,
+#        "destination": "Italy",
+#        "shippingType": "STANDARD",
+#        "status": "PENDING",
+#        "cost": 25.0
+#      },
+#      {
+#        "id": 22,
+#        "customerName": "C1",
+#        "weight": 10.0,
+#        "destination": "Italy",
+#        "shippingType": "STANDARD",
+#        "status": "PENDING",
+#        "cost": 0.0
+#      },
+#      {
+#        "id": 20,
+#        "customerName": "C3",
+#        "weight": 3.0,
+#        "destination": "Italy",
+#        "shippingType": "STANDARD",
+#        "status": "READY",
+#        "cost": 7.5
+#      },
+#      {
+#        "id": 19,
+#        "customerName": "C2",
+#        "weight": 7.0,
+#        "destination": "Italy",
+#        "shippingType": "STANDARD",
+#        "status": "DELAYED",
+#        "cost": 17.5
+#      },
+#      {
+#        "id": 37,
+#        "customerName": "person2",
+#        "weight": 5.0,
+#        "destination": "Italy",
+#        "shippingType": "EXPRESS",
+#        "status": "READY",
+#        "cost": 18.75
+#      }
+#    ]
+#  }
+#}
 ### ==================== NOTES ====================
 # Shipping Types:
 # - STANDARD: weight × 2.5 (most economical)

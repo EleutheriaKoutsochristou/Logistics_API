@@ -34,7 +34,7 @@ CREATE TABLE orders (
     status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
     cost DOUBLE PRECISION NOT NULL
 );
-
+--
 -- Create indexes for better query performance
 CREATE INDEX idx_orders_status ON orders(status);
 CREATE INDEX idx_orders_destination ON orders(destination);
@@ -60,20 +60,20 @@ CREATE INDEX idx_vehicles_license_plate ON vehicles(license_plate);
 -- ============================================
 -- Insert Actual Orders Data
 -- ============================================
-INSERT INTO orders (id, cost, customer_name, destination, shipping_type, status, weight)
-VALUES
-    (18, 25, 'C1', 'Italy', 'STANDARD', 'PENDING', 10),
-    (21, 25, 'C1', 'Italy', 'STANDARD', 'PENDING', 10),
-    (22, 0, 'C1', 'Italy', 'STANDARD', 'PENDING', 10),
-    (20, 7.5, 'C3', 'Italy', 'STANDARD', 'READY', 3),
-    (19, 17.5, 'C2', 'Italy', 'STANDARD', 'DELAYED', 7),
-    (24, 11.25, 'C5', 'Africa', 'EXPRESS', 'READY', 3),
-    (23, 7.5, 'C5', 'France', 'STANDARD', 'DELAYED', 3);
+-- INSERT INTO orders (id, cost, customer_name, destination, shipping_type, status, weight)
+-- VALUES
+--     (18, 25, 'C1', 'Italy', 'STANDARD', 'PENDING', 10),
+--     (21, 25, 'C1', 'Italy', 'STANDARD', 'PENDING', 10),
+--     (22, 0, 'C1', 'Italy', 'STANDARD', 'PENDING', 10),
+--     (20, 7.5, 'C3', 'Italy', 'STANDARD', 'READY', 3),
+--     (19, 17.5, 'C2', 'Italy', 'STANDARD', 'DELAYED', 7),
+--     (24, 11.25, 'C5', 'Africa', 'EXPRESS', 'READY', 3),
+--     (23, 7.5, 'C5', 'France', 'STANDARD', 'DELAYED', 3);
 
 -- ============================================
 -- Insert Actual Vehicles Data
 -- ============================================
-INSERT INTO vehicles (id, capacity, licenseplate, maxspeed, status, type)
+INSERT INTO vehicles (id, capacity, license_plate, max_speed, status, type)
 VALUES
     (1, 1000, 'ABC123', 120, 'available', 'TRUCK'),
     (2, 500, 'XYZ789', 100, 'in_service', 'VAN'),

@@ -21,13 +21,13 @@ public class Vehicle {
     @Column(name = "type", nullable = false)
     private VehicleType type;
 
-    @Column(name = "licenseplate", nullable = false, unique = true)
+    @Column(name = "license_plate", nullable = false, unique = true)
     private String licensePlate;
 
     @Column(name = "capacity", nullable = false)
     private Double capacity;
 
-    @Column(name = "maxspeed", nullable = false)
+    @Column(name = "max_speed", nullable = false)
     private Double maxSpeed;
 
     @Column(name = "status", nullable = false)
