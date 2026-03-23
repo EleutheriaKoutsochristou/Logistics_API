@@ -1,0 +1,10 @@
+# Αξιολόγηση Απαιτήσεων (Requirements Evaluation)
+
+| Ζητούμενο (Requirement) | Κατάσταση (ΝΑΙ / ΟΧΙ / ΜΕΡΙΚΩΣ) | Σχόλια / Παρατηρήσεις |
+| :--- | :---: | :--- |
+| **1. Basic Setup:** Η εφαρμογή τρέχει (Spring Boot) και συνδέεται με τη Βάση. | **ΝΑΙ** | Η εφαρμογή είναι χτισμένη με Spring Boot 3.2.1 και υπάρχει επιτυχής διαμόρφωση σύνδεσης με PostgreSQL βάση δεδομένων (`application.properties`). |
+| **2. Async Processing:** Η παραγγελία απαντάει άμεσα, η επεξεργασία γίνεται σε background thread. | **ΝΑΙ** | Το POST endpoint `/orders` επιστρέφει άμεσα `HTTP 202 ACCEPTED`. Η μέθοδος `executeOrder()` του `OrderService` είναι ασύγχρονη (χρήση `@Async` μέσω του `AsyncConfig`). |
+| **3. Strategy Pattern:** Υλοποίηση διαφορετικών στρατηγικών χρέωσης (Standard, Express κ.λπ.) μέσω Interface. | **ΝΑΙ** | Υπάρχει το interface `ShippingPricing` και οι αντίστοιχες υλοποιήσεις του (`StandardPricing`, `ExpressPricing`, `FreePricing`) στο πακέτο `PricingService`. |
+| **4. Factory Pattern:** Δημιουργία αντικειμένων Vehicle μέσω Factory κλάσης. | **ΝΑΙ** | Έχει υλοποιηθεί το Abstract Factory pattern με την κλάση `VehicleFactory` και τις υποκλάσεις `TruckFactory`, `VanFactory`, `DroneFactory` (στο πακέτο `FactoryPattern`). |
+| **5. Stream API:** Υπολογισμός Analytics (Group By, Max, Filter) χωρίς SQL queries. | **ΝΑΙ** | Το `AnalyticsRepository` είναι σκόπιμα άδειο (placeholder). Όλοι οι υπολογισμοί στο `AnalyticsService` (totalRevenue, mostExpensiveOrder, delayedOrders) γίνονται in-memory με χρήση Java Streams πάνω στις λίστες των δεδομένων. |
+| **6. Clean Code:** Χρήση DTOs (Request/Response objects) και όχι Entities στον Controller. | **ΝΑΙ** | Έχουν δημιουργηθεί και χρησιμοποιούνται Records και Classes όπως `OrderDTO`, `OrderResponseDTO`, `VehicleDTO` και `VehicleRequestDTO` στο Request/Response layer αντί για τα JPA Entities. |
